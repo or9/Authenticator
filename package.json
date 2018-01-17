@@ -1,0 +1,40 @@
+{
+	"name": "@or9-rockman/authenticator",
+	"version": "0.0.1",
+	"engineStrict": true,
+	"engines": {
+		"node": ">=8.*",
+		"npm": "*"
+	},
+	"description": "2 factor auth for NodeJS",
+	"main": "index.js",
+	"keywords": [
+		"2fa",
+		"auth",
+		"authentication"
+	],
+	"author": "drahman",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/or9/Authenticator/issues"
+	},
+	"homepage": "https://github.com/or9/Authenticator#readme",
+	"dependencies": {
+		"speakeasy": "^2.0.0"
+	},
+	"scripts": {
+		"test": "mocha --recursive --use_strict --exit --check-leaks *.spec.js",
+		"test:watch": "npm test -- --watch --reporter min"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@github.com/or9/Authenticator.git"
+	},
+	"devDependencies": {
+		"chai": "^4.1.2",
+		"mocha": "^4.1.0",
+		"mockery": "^2.1.0",
+		"redis": "^2.8.0",
+		"sinon": "^4.1.5"
+	}
+}

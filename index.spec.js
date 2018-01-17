@@ -11,7 +11,8 @@ const QRCode = getQRCodeMock();
 const redis = getRedisMock();
 
 describe("Authenticator", () => {
-	var Auth;
+	var Auth,
+		sandbox;
 
 	before(() => {
 		mockery.enable({
@@ -31,7 +32,7 @@ describe("Authenticator", () => {
 	})
 
 	beforeEach(() => {
-		global.sandbox = sinon.sandbox.create();
+		sandbox = sinon.sandbox.create();
 	})
 
 	afterEach(() => {

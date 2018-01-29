@@ -26,7 +26,6 @@ function create (userName) {
 
 	return new Promise((resolve, reject) => {
 		const props = [ "secret", clientSecret.base32, "qrCodeUrl", qrCodeUrl ];
-		console.log("calling with ", userName, props);
 
 		redisClient.hset(userName, props, (err, response) => {
 			if (err) return Promise.reject(err);
@@ -39,10 +38,7 @@ function create (userName) {
 }
 
 function verify (userName, token) {
-	console.log("verify by userName and token", userName, token);
-	// const secret = "beans"; // load from user record in DB
 	const secret = redisClient.hget(userName).secret;
-	console.log("getting secret", secret);
 	const encoding = "base32";
 
 	speakeasy.totp.verify({

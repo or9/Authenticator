@@ -20,6 +20,7 @@
 	},
 	"homepage": "https://github.com/or9/Authenticator#readme",
 	"dependencies": {
+		"qrcode": "^1.2.0",
 		"speakeasy": "^2.0.0"
 	},
 	"scripts": {

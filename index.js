@@ -4,36 +4,46 @@
 const speakeasy = require("speakeasy");
 const QRCode = require("QRCode");
 const redis = require("redis");
+const { promisify } = require("util");
 
 const redisClient = redis.createClient();
-redisClient.on("error", console.error);
+// const __hset = promisify(redisClient.hset.bind(redisClient));
 
-var secret = "";
-var token = "";
+redisClient.on("error", console.error);
 
 module.exports = {
 	create,
 	verify
 }
 
-function create () {
+// TODO: Allow providing own redis client
+function create (userName) {
 	const clientSecret = speakeasy.generateSecret({
 		length: 20
 	});
 
 	const qrCodeUrl = QRCode.toDataUrl();
 
-	redisClient.hset("my-test-user", [
-	         "secret", clientSecret,
-	         "qrCodeUrl", qrCodeUrl
-	])
+	return new Promise((resolve, reject) => {
+		const props = [ "secret", clientSecret.base32, "qrCodeUrl", qrCodeUrl ];
+		console.log("calling with ", userName, props);
+
+		redisClient.hset(userName, props, (err, response) => {
+			if (err) return Promise.reject(err);
+
+			return resolve(response);
+		});
+	});
+
 
 }
 
-function verify () {
-	const secret = "beans";
+function verify (userName, token) {
+	console.log("verify by userName and token", userName, token);
+	// const secret = "beans"; // load from user record in DB
+	const secret = redisClient.hget(userName).secret;
+	console.log("getting secret", secret);
 	const encoding = "base32";
-	const token = "something";
 
 	speakeasy.totp.verify({
 		secret,
